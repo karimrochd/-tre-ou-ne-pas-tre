@@ -1,80 +1,78 @@
-# Être ou ne pas être
+# To Be or Not to Be: Hospital Patient Mortality Prediction
 
-##  Présentation :
-Dans ce projet on nous propose de construire un modèle d’apprentissage supervisé qu’on utilisera
-pour faire des prédictions sur le décès ou pas des patients d’un hôpital.
+## Introduction
 
-Le set de données porte sur 80000 patients représentés par des variables telles que le sexe, l’age ,
-l’origine ethnique etc.
+This project focuses on developing a supervised learning model to predict mortality in hospital patients. Using a dataset of 80,000 patients with various attributes such as gender, age, and ethnicity, we aim to create an algorithm that can automatically assess a patient's likelihood of survival.
 
-Le travail s’est fait en en 3 parties :
+## Project Structure
 
-  Dans un premier temps il s’agit de charger les données et de les parcourir pour les connaître et avoir une idée de comment les exploiter. On va également s’occuper de traiter ces données pour que celles-ci soient exploitable par le modèle (traitement des valeurs absentes et aberrantes, etc).
-  
-  On va par la suite diviser le set de données en 2 groupes : Le groupe de données d’entraînement et le groupe de données validation.
+The project is divided into three main parts:
 
-  Enfin on a construit le modèle prévisionnel et on l'a testé pour voir si il est efficace. On cherche à avoir à terme un algorithme dont l’objectif est de deviner l’état de santé d’un patient automatiquement.
-  
-## Chargement/Traitement des données:
+1. **Data Loading and Preprocessing**
+2. **Exploratory Data Analysis**
+3. **Model Building and Evaluation**
 
-  La première étape est bien entendu de charger et traiter les données qu’on va par la suite exploiter.
-On cherche à ne garder dans notre set que les données exploitables et dans la mesure où toutes les
-données ont un impact sur la précision du modèle il faut être sûr de retirer (ou modifier) toutes les
-données inexploitables.
+## 1. Data Loading and Preprocessing
 
-Ces données vont par exemple être les données de patients incomplets (NaN) ou aberrantes. Dans
-ce projet on choisit de remplacer les valeurs non définies par « la valeur la plus probable de la
-variable »  qui est simplement l’occurrence de la variable la plus présente dans l’ensemble.
+### Key Steps:
+- Load the dataset and explore its characteristics
+- Handle missing values and outliers
+- Convert categorical variables to numerical format using LabelEncoder and One-Hot Encoding
+- Implement Principal Component Analysis (PCA) for dimensionality reduction
 
-On cherche ensuite à remplacer les données exprimées sous formes de chaînes de caractères par des
-données exprimées sous forme d’entiers car les entiers sont beaucoup plus facilement exploitables
-par des modèles.
+### Data Cleaning:
+- Replace undefined values with the mode of each variable
+- Remove or modify unusable data to ensure model accuracy
 
-Pour le faire on dispose de deux méthodes qui nous sont proposées : LabelEncoder et One hot Vector.
+## 2. Exploratory Data Analysis
 
-Pour réduir les dimension des données on utilise l’ACP (analyse en composantes principales).
+### Variable Types:
+- Majority of variables are numeric
+- Several binary variables
+- Eight categorical variables
 
-Pour le faire l’ACP cherche les combinaisons linéaires de variables qui expliquent la variance
-maximale des données.
+### Target Variable:
+- Examined the 'y' variable indicating patient survival
+- Found that the majority of patients in the dataset survive
 
-Par ce moyen on détermine les composantes les plus importantes des données car ayant le plus gros
-impact sur la variance.
+### Visualization:
+- Created graphs to visualize data distribution and relationships
+- Analyzed correlation between variables
 
-On va utiliser la méthode Logistic Regression pour créer le modèle et on va l’entraîner grâce à notre
-ensemble d’entraînement.
+## 3. Model Building and Evaluation
 
-## Analyse exploratiore :
+### Model Selection:
+- Implemented Logistic Regression as the primary model
+- Also tested K-Nearest Neighbors (KNN) for comparison
 
-Dans cette partie nous présentons les résultats de l'analyse exploratoire des données. Nous avons commencé par examiner les types de variables dans notre
-ensemble de données. Nous avons constaté que la plupart des variables étaient
-numériques, suivies des variables binaires et seulement huit variables étaient
-catégorielles.
+### Evaluation Methods:
+- Used hold-out method for initial validation
+- Implemented cross-validation for more reliable results
+- Utilized GridSearchCV for hyperparameter tuning
 
-Ensuite ,nous avons examiné la variable cible ‘y’ qui dit si le patient a survécu ou non
-et nous avons constaté que la majorité de nos patients survivent .
+### Performance Metrics:
+- Calculated balanced accuracy for both models
+- Analyzed AUC (Area Under the Curve) scores
 
-Enfin ,nous avons dessiné quelques graphes pour bien visualiser la répartition des
-données et les relations potentielles entre eux (par exemple la corrélation ).
+### Visualization of Results:
+- Created bar charts with error bars to display model performance across different hyperparameters
 
+## Results and Conclusions
 
-## Evaluation :
+1. **Balanced Classification:**
+   - If the priority is balanced performance across both classes (survival and non-survival), the **KNN model** shows a higher balanced accuracy score.
 
-Le but de cette dernière partie est d'évaluer les performances des modèles de classification,
-tout d’abord la méthode hold out est utilisée pour mesurer le score de validation mais il est
-recommandé d’utiliser la validation croisée pour des résultats plus fiables et pour cela on utilise
-GridSearchCV pour trouver les meilleurs hyperparamètres .
-
-Ensuite ,pour deux modèles de classification les balanced_accuracy sont calculées
-pour plusieurs valeurs d’un hyperparamètre .
-
-Enfin, les résultats sont affichés sous forme de diagrammes à bâtons avec des barres d’erreur
-pour les deux modèles .
-
-Dans l’ensemble cette dernière étape permet d’observer la stabilité des prédictions pour chaque
-modèle en fonction des différentes valeurs des hyperparamètres choisis .
+2. **Precise Distinction:**
+   - For scenarios requiring accurate distinction between survival and non-survival, which is crucial in medical contexts, the **Logistic Regression model** outperforms with a significantly higher AUC score.
 
 
-## Résultats :
+## Tools and Libraries Used
 
-- **Si l'équilibre entre les classes est crucial** et que la capacité à bien performer sur les deux classes (décès et non-décès) est la priorité, **le modèle KNN** pourrait être préféré en raison de son score de précision équilibrée supérieur.
-- **Cependant, si la capacité à distinguer précisément entre les patients qui décéderont et ceux qui ne le feront pas est plus importante**, ce qui est souvent le cas dans les contextes médicaux où minimiser les faux positifs et faux négatifs est crucial, **le modèle de régression logistique** est nettement le meilleur choix, en raison de son score AUC très supérieur.
+- Python
+- Pandas for data manipulation
+- Scikit-learn for machine learning models and evaluation
+- Matplotlib and Seaborn for data visualization
+
+---
+
+This project demonstrates the application of machine learning in healthcare, specifically in predicting patient outcomes. The insights gained can potentially assist medical professionals in making informed decisions and improving patient care strategies.
